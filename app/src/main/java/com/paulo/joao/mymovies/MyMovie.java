@@ -19,16 +19,17 @@ public class MyMovie {
     private String awards;
     private int posterUrl;
     private String metaScore;
-    private Double imdbRating;
-    private Long imdbVotes;
+    private String imdbRating;
+    private String imdbVotes;
     private String imdbId;
     private String type;
     private boolean isSavedOnMobile;
 
-    public MyMovie(String title, int posterUrl, boolean isSaved) {
+    public MyMovie(String title, int posterUrl, String year, boolean isSaved) {
         this.title = title;
         this.posterUrl = posterUrl;
         this.isSavedOnMobile = isSaved;
+        this.year = year;
     }
 
     public boolean isSavedOnMobile() {
@@ -159,19 +160,19 @@ public class MyMovie {
         this.metaScore = metaScore;
     }
 
-    public Double getImdbRating() {
+    public String getImdbRating() {
         return imdbRating;
     }
 
-    public void setImdbRating(Double imdbRating) {
+    public void setImdbRating(String imdbRating) {
         this.imdbRating = imdbRating;
     }
 
-    public Long getImdbVotes() {
+    public String getImdbVotes() {
         return imdbVotes;
     }
 
-    public void setImdbVotes(Long imdbVotes) {
+    public void setImdbVotes(String imdbVotes) {
         this.imdbVotes = imdbVotes;
     }
 

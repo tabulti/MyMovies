@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.paulo.joao.mymovies.adapters.CoverFlowAdapter;
+import com.paulo.joao.mymovies.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +75,9 @@ public class CarouselFragment extends BaseFragment {
     public void initMovies(){
         movies = new ArrayList<>();
 
-        movies.add(new MyMovie("Star Wars", R.drawable.star_wars_image, true));
-        movies.add(new MyMovie("Harry Potter", R.drawable.harry_potter_image, false));
-        movies.add(new MyMovie("The Lord Of The Rings", R.drawable.lotr_image, false));
+        movies.add(new MyMovie("Star Wars", R.drawable.star_wars_image, Utils.formatYear("1992"), true));
+        movies.add(new MyMovie("Harry Potter", R.drawable.harry_potter_image,Utils.formatYear("2012"), false));
+        movies.add(new MyMovie("The Lord Of The Rings", R.drawable.lotr_image,Utils.formatYear("2001"), false));
     }
 
 }
