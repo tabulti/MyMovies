@@ -1,4 +1,4 @@
-package com.paulo.joao.mymovies;
+package com.paulo.joao.mymovies.fragments;
 
 
 import android.content.Context;

@@ -9,8 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.paulo.joao.mymovies.MyMovie;
+import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,10 +60,11 @@ public class CoverFlowAdapter extends BaseAdapter {
         }
 
         //TODO: verify cases where image will not able
-//        Picasso.with(this.context).load(data.get(position).getPosterUrl()).into(viewHolder.movieImage);
-        viewHolder.movieImage.setImageResource(data.get(position).getPosterUrl());
+        Picasso.with(this.context).load(data.get(position).getPosterUrl()).into(viewHolder.movieImage);
 
-        viewHolder.movieName.setText(data.get(position).getTitle());
+//        viewHolder.movieImage.setImageResource(data.get(position).getPosterUrl());
+
+//        viewHolder.movieName.setText(data.get(position).getTitle());
 
         view.setOnClickListener(onMovieClickListener(position));
 
@@ -80,13 +82,13 @@ public class CoverFlowAdapter extends BaseAdapter {
                 dialog.setTitle(R.string.selected_movie_dialog_title);
 
                 TextView textView = (TextView) dialog.findViewById(R.id.name);
-                textView.setText(data.get(position).getTitle());
+//                textView.setText(data.get(position).getTitle());
 
                 ImageView imageView = (ImageView) dialog.findViewById(R.id.image_diolog);
 
                 //TODO: verify cases where image will not able
 //                Picasso.with(context).load(data.get(position).getPosterUrl()).into(imageView);
-                imageView.setImageResource(data.get(position).getPosterUrl());
+//                imageView.setImageResource(data.get(position).getPosterUrl());
 
                 dialog.show();
             }

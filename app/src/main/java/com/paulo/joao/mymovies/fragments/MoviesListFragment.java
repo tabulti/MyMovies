@@ -1,4 +1,4 @@
-package com.paulo.joao.mymovies;
+package com.paulo.joao.mymovies.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.paulo.joao.mymovies.model.MyMovie;
+import com.paulo.joao.mymovies.R;
 import com.paulo.joao.mymovies.adapters.MoviesListAdapter;
 import com.paulo.joao.mymovies.util.Utils;
 
@@ -44,14 +46,14 @@ public class MoviesListFragment extends BaseFragment {
     public void initMovies(){
         movies = new ArrayList<>();
 
-        movies.add(new MyMovie("Star Wars", R.drawable.star_wars_image, Utils.formatYear("1992"), true));
-        movies.add(new MyMovie("Harry Potter", R.drawable.harry_potter_image,Utils.formatYear("2012"), false));
-        movies.add(new MyMovie("The Lord Of The Rings", R.drawable.lotr_image,Utils.formatYear("2001"), false));
-        movies.add(new MyMovie("Star Wars", R.drawable.star_wars_image, Utils.formatYear("1992"), true));
-        movies.add(new MyMovie("Harry Potter", R.drawable.harry_potter_image,Utils.formatYear("2012"), false));
-        movies.add(new MyMovie("The Lord Of The Rings", R.drawable.lotr_image,Utils.formatYear("2001"), false));
-        movies.add(new MyMovie("Star Wars", R.drawable.star_wars_image, Utils.formatYear("1992"), true));
-        movies.add(new MyMovie("Harry Potter", R.drawable.harry_potter_image,Utils.formatYear("2012"), false));
-        movies.add(new MyMovie("The Lord Of The Rings", R.drawable.lotr_image,Utils.formatYear("2001"), false));
+        movies.add(new MyMovie("Star Wars", /*R.drawable.star_wars_image, */Utils.formatYear("1992"), true));
+        movies.add(new MyMovie("Harry Potter",/* R.drawable.harry_potter_image,*/Utils.formatYear("2012"), false));
+        movies.add(new MyMovie("The Lord Of The Rings", /*R.drawable.lotr_image,*/Utils.formatYear("2001"), false));
+        movies.add(new MyMovie("Star Wars", /*R.drawable.star_wars_image,*/ Utils.formatYear("1992"), true));
+        movies.add(new MyMovie("Harry Potter", /*R.drawable.harry_potter_image,*/Utils.formatYear("2012"), false));
+        movies.add(new MyMovie("The Lord Of The Rings", /*R.drawable.lotr_image,*/Utils.formatYear("2001"), false));
+        movies.add(new MyMovie("Star Wars", /*R.drawable.star_wars_image,*/ Utils.formatYear("1992"), true));
+        movies.add(new MyMovie("Harry Potter", /*R.drawable.harry_potter_image,*/Utils.formatYear("2012"), false));
+        movies.add(new MyMovie("The Lord Of The Rings", /*R.drawable.lotr_image,*/Utils.formatYear("2001"), false));
     }
 }

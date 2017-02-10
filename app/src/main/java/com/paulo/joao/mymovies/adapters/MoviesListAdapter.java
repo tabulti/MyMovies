@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.paulo.joao.mymovies.MyMovie;
+import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
 
 import java.util.List;

@@ -10,12 +10,12 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/name"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+        android:textAppearance="?android:attr/textAppearanceSmallInverse" />-->
 
 </FrameLayout>

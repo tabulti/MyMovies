@@ -1,35 +1,35 @@
-package com.paulo.joao.mymovies;
+package com.paulo.joao.mymovies.model;
 
 /**
  * Created by Joao Paulo Ribeiro on 07/02/2017.
  */
 public class MyMovie {
-    private String title;
-    private String year;
-    private String rated;
-    private String released;
-    private String runtime;
-    private String genre;
-    private String director;
-    private String writer;
-    private String actors;
-    private String plot;
-    private String language;
-    private String coutry;
-    private String awards;
-    private int posterUrl;
-    private String metaScore;
+    private String Title;
+    private String Year;
+    private String Rated;
+    private String Released;
+    private String Runtime;
+    private String Genre;
+    private String Director;
+    private String Writer;
+    private String Actors;
+    private String Plot;
+    private String Language;
+    private String Coutry;
+    private String Awards;
+    private String PosterUrl;
+    private String MetaScore;
     private String imdbRating;
     private String imdbVotes;
-    private String imdbId;
-    private String type;
+    private String imdbID;
+    private String Type;
     private boolean isSavedOnMobile;
 
-    public MyMovie(String title, int posterUrl, String year, boolean isSaved) {
-        this.title = title;
-        this.posterUrl = posterUrl;
+    public MyMovie(String title, /*String posterUrl,*/ String year, boolean isSaved) {
+        this.Title = title;
+//        this.PosterUrl = posterUrl;
         this.isSavedOnMobile = isSaved;
-        this.year = year;
+        this.Year = year;
     }
 
     public boolean isSavedOnMobile() {
@@ -41,123 +41,119 @@ public class MyMovie {
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
     public String getYear() {
-        return year;
+        return Year;
     }
 
     public void setYear(String year) {
-        this.year = year;
+        this.Year = year;
     }
 
     public String getRated() {
-        return rated;
+        return Rated;
     }
 
     public void setRated(String rated) {
-        this.rated = rated;
+        this.Rated = rated;
     }
 
     public String getReleased() {
-        return released;
+        return Released;
     }
 
     public void setReleased(String released) {
-        this.released = released;
+        this.Released = released;
     }
 
     public String getRuntime() {
-        return runtime;
+        return Runtime;
     }
 
     public void setRuntime(String runtime) {
-        this.runtime = runtime;
+        this.Runtime = runtime;
     }
 
     public String getGenre() {
-        return genre;
+        return Genre;
     }
 
     public void setGenre(String genre) {
-        this.genre = genre;
+        this.Genre = genre;
     }
 
     public String getDirector() {
-        return director;
+        return Director;
     }
 
     public void setDirector(String director) {
-        this.director = director;
+        this.Director = director;
     }
 
     public String getWriter() {
-        return writer;
+        return Writer;
     }
 
     public void setWriter(String writer) {
-        this.writer = writer;
+        this.Writer = writer;
     }
 
     public String getActors() {
-        return actors;
+        return Actors;
     }
 
     public void setActors(String actors) {
-        this.actors = actors;
+        this.Actors = actors;
     }
 
     public String getPlot() {
-        return plot;
+        return Plot;
     }
 
     public void setPlot(String plot) {
-        this.plot = plot;
+        this.Plot = plot;
     }
 
     public String getLanguage() {
-        return language;
+        return Language;
     }
 
     public void setLanguage(String language) {
-        this.language = language;
+        this.Language = language;
     }
 
     public String getCoutry() {
-        return coutry;
+        return Coutry;
     }
 
     public void setCoutry(String coutry) {
-        this.coutry = coutry;
+        this.Coutry = coutry;
     }
 
     public String getAwards() {
-        return awards;
+        return Awards;
     }
 
     public void setAwards(String awards) {
-        this.awards = awards;
+        this.Awards = awards;
     }
 
-    public int getPosterUrl() {
-        return posterUrl;
-    }
-
-    public void setPosterUrl(int posterUrl) {
-        this.posterUrl = posterUrl;
+    public String getPosterUrl() {
+        return PosterUrl;
     }
 
     public String getMetaScore() {
-        return metaScore;
+        return MetaScore;
     }
 
     public void setMetaScore(String metaScore) {
-        this.metaScore = metaScore;
+        this.MetaScore = metaScore;
     }
 
     public String getImdbRating() {
@@ -177,18 +173,18 @@ public class MyMovie {
     }
 
     public String getImdbId() {
-        return imdbId;
+        return imdbID;
     }
 
     public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
+        this.imdbID = imdbId;
     }
 
     public String getType() {
-        return type;
+        return Type;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.Type = type;
     }
 }
