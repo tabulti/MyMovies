@@ -21,28 +21,23 @@ import java.util.List;
  * Created by Joao Paulo Ribeiro on 09/02/2017.
  */
 
-public class MoviesListPosterAdapter extends BaseAdapter implements Filterable{
+public class MoviesListPosterAdapter extends BaseAdapter {
     private Context context;
-    private MovieFilter movieFilter;
     private List<MyMovie> movies;
-    private List<MyMovie> moviesFiltered;
-
-    private String url = "https://images-na.ssl-images-amazon.com/images/M/MV5BZGEzZTExMDEtNjg4OC00NjQxLTk5NTUtNjRkNjA3MmYwZjg1XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg";
 
     public MoviesListPosterAdapter(Context context, List movies) {
         this.context = context;
         this.movies = movies;
-        this.moviesFiltered = movies;
     }
 
     @Override
     public int getCount() {
-        return moviesFiltered.size();
+        return movies.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return moviesFiltered.get(position);
+        return movies.get(position);
     }
 
     @Override
@@ -67,51 +62,15 @@ public class MoviesListPosterAdapter extends BaseAdapter implements Filterable{
         viewHolder.movieTitle.setText(movies.get(position).getTitle());
         viewHolder.movieYear.setText(movies.get(position).getYear());
 
-        Picasso.with(context).load(movies.get(position).getPosterUrl()).into(viewHolder.moviePoster);
+        Picasso.with(context).load(movies.get(position).getPoster()).into(viewHolder.moviePoster);
 
         return view;
     }
 
-    @Override
-    public Filter getFilter() {
-        if (movieFilter == null) {
-            movieFilter = new MovieFilter();
-        }
-        return movieFilter;
+    public void setMovies(List<MyMovie> movies){
+        this.movies = movies;
+        notifyDataSetChanged();
     }
-
-
-    private class MovieFilter extends Filter{
-
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            FilterResults filterResults = new FilterResults();
-            if (charSequence != null && charSequence.length() > 0) {
-                ArrayList<MyMovie> moviesList = new ArrayList<>();
-
-                for (MyMovie movie : movies) {
-                    if (movie.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        moviesFiltered.add(movie);
-                    }
-                }
-
-                filterResults.count = moviesFiltered.size();
-                filterResults.values = moviesFiltered;
-            } else {
-                filterResults.count = movies.size();
-                filterResults.values = movies;
-            }
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            moviesFiltered = (ArrayList<MyMovie>) filterResults.values;
-            notifyDataSetChanged();
-        }
-    }
-
-
 
     private static class ViewHolder {
         private TextView movieTitle;

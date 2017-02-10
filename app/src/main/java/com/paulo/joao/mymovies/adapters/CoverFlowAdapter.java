@@ -60,7 +60,7 @@ public class CoverFlowAdapter extends BaseAdapter {
         }
 
         //TODO: verify cases where image will not able
-        Picasso.with(this.context).load(data.get(position).getPosterUrl()).into(viewHolder.movieImage);
+        Picasso.with(this.context).load(data.get(position).getPoster()).into(viewHolder.movieImage);
 
 //        viewHolder.movieImage.setImageResource(data.get(position).getPosterUrl());
 

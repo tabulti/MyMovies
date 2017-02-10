@@ -52,9 +52,4 @@ public class MoviesRepository {
         }
         return false;
     }
-
-    private Map<String, ?> loadMovies(){
-        mPrefs.
-        return mPrefs.getAll();
-    }
 }

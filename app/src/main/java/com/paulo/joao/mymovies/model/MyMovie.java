@@ -17,7 +17,7 @@ public class MyMovie {
     private String Language;
     private String Coutry;
     private String Awards;
-    private String PosterUrl;
+    private String Poster;
     private String MetaScore;
     private String imdbRating;
     private String imdbVotes;
@@ -144,8 +144,12 @@ public class MyMovie {
         this.Awards = awards;
     }
 
-    public String getPosterUrl() {
-        return PosterUrl;
+    public String getPoster() {
+        return Poster;
+    }
+
+    public void setPoster(String poster) {
+        this.Poster = poster;
     }
 
     public String getMetaScore() {

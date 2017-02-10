@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".SearchableActivity">
+            android:name=".fragments.SearchableFragment">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
 

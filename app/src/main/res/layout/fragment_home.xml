@@ -2,10 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:coverflow="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.paulo.joao.mymovies.fragments.HomeFragment">
 
     <LinearLayout
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -13,19 +15,39 @@
         <FrameLayout
             android:id="@+id/carousel_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            />
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+
+            <it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow
+                android:id="@+id/coverflow"
+                coverflow:coverHeight="150dp"
+                coverflow:coverWidth="100dp"
+                coverflow:maxScaleFactor="1.5"
+                coverflow:reflectionGap="10px"
+                coverflow:rotationThreshold="0.5"
+                coverflow:scalingThreshold="0.5"
+                coverflow:spacing="0.6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
 
         <FrameLayout
             android:layout_below="@id/carousel_container"
             android:id="@+id/movies_list_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ListView
+                android:id="@+id/movies_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+        </FrameLayout>
 
     </LinearLayout>
-
-
 
 </RelativeLayout>
