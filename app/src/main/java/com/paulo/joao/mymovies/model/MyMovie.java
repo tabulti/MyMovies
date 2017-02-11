@@ -1,9 +1,11 @@
 package com.paulo.joao.mymovies.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Joao Paulo Ribeiro on 07/02/2017.
  */
-public class MyMovie {
+public class MyMovie implements Serializable{
     private String Title;
     private String Year;
     private String Rated;
