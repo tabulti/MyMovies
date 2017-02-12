@@ -3,9 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.paulo.joao.mymovies.fragments.MovieDetailsFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/description_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"/>
     
     <ImageView
         android:id="@+id/movie_banner"
+        android:layout_below="@id/description_toolbar"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 

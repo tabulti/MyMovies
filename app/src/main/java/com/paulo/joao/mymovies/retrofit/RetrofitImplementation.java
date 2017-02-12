@@ -62,7 +62,14 @@ public class RetrofitImplementation {
                 @Override
                 public void onResponse(Call<MyMovie> call, Response<MyMovie> response) {
                     if(response != null) {
-                        handler.onGetMovieBySimpleName(response.body(), null);
+                        if (response.errorBody() == null && response.body() != null){
+                            handler.onGetMovieBySimpleName(response.body(), null);
+                        } else {
+                            String err = "Code: " + response.raw().code() + "\n" +
+                                    "Message: " + response.raw().message();
+                            handler.onGetMovieBySimpleName(null, new Error(err));
+
+                        }
                     }
                 }
                 @Override

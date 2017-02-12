@@ -61,22 +61,16 @@ public class MoviesListAdapter extends BaseAdapter {
         viewHolder.movieTitle.setText(movies.get(position).getTitle());
         viewHolder.movieYear.setText(movies.get(position).getYear());
 
-        if (movies.get(position).isSavedOnMobile()) {
-            viewHolder.movieSaved.setTextColor(context.getColor(R.color.colorPrimary));
-        }
-
         return view;
     }
 
     private static class ViewHolder {
         private TextView movieTitle;
         private TextView movieYear;
-        private TextView movieSaved;
 
         public ViewHolder(View view) {
             movieTitle = (TextView) view.findViewById(R.id.movie_list_item_title);
             movieYear = (TextView) view.findViewById(R.id.movie_list_item_year);
-            movieSaved = (TextView) view.findViewById(R.id.movie_list_item_saved);
         }
     }
 }

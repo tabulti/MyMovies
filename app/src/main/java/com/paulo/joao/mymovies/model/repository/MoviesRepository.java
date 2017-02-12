@@ -28,21 +28,18 @@ public class MoviesRepository{
     private static MoviesRepository _instance_;
     private static File file;
 
-    public static MoviesRepository getInstance_() {
+    public static MoviesRepository getInstance() {
         if (_instance_ == null) {
+            _instance_ = new MoviesRepository();
         }
         return _instance_;
     }
 
-    private void initMoviesRepository(Context context) throws IOException, ClassNotFoundException {
-        file = context.getFileStreamPath(MOVIES_FILE);
-        myMovies = new ArrayList<>();
-        myMovies = getListOfMoviesFromMemory();
-
+    public List<MyMovie> getMovies() {
+        return this.myMovies;
     }
 
     private void saveListMoviesOnMemory(List<MyMovie> movies) throws IOException {
-
         FileOutputStream fos = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(movies);
@@ -60,19 +57,53 @@ public class MoviesRepository{
         return listFound;
     }
 
-    private void saveMovie(MyMovie movie) throws IOException {
+    public boolean saveMovie(MyMovie movie){
         if (!hasMovie(movie)) {
             myMovies.add(movie);
-            saveListMoviesOnMemory(myMovies);
+            try {
+                saveListMoviesOnMemory(myMovies);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public void deleteMovie(MyMovie movie) {
+        if (hasMovie(movie)) {
+            for (int i = 0; i < myMovies.size(); i++) {
+                if (myMovies.get(i).getTitle().equals(movie.getTitle())) {
+                    myMovies.remove(i);
+                }
+            }
+            try {
+                saveListMoviesOnMemory(myMovies);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private boolean hasMovie(MyMovie movieToSearch) {
+    public boolean hasMovie(MyMovie movieToSearch) {
         for (MyMovie movie : myMovies){
             if(movie.getTitle().equals(movieToSearch.getTitle())){
                 return true;
             }
         }
         return false;
+    }
+
+    public void initMoviesRepository(Context context) {
+        file = context.getFileStreamPath(MOVIES_FILE);
+        myMovies = new ArrayList<>();
+        try {
+            myMovies = getListOfMoviesFromMemory();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

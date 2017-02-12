@@ -78,9 +78,11 @@ public class SearchableFragment extends BaseFragment {
             MovieDetailsFragment fragment = new MovieDetailsFragment();
             fragment.setArguments(bundle);
 
+            getFragmentManager().popBackStack();
+
             getFragmentManager().beginTransaction()
-                    .replace(R.id.main_content_fragment, fragment, "TestSearch")
-                    .addToBackStack(null)
+                    .replace(R.id.main_content_fragment, fragment, MovieDetailsFragment.class.getSimpleName())
+                    .addToBackStack("null")
                     .commit();
         }
 

@@ -59,12 +59,7 @@ public class CoverFlowAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        //TODO: verify cases where image will not able
         Picasso.with(this.context).load(data.get(position).getPoster()).into(viewHolder.movieImage);
-
-//        viewHolder.movieImage.setImageResource(data.get(position).getPosterUrl());
-
-//        viewHolder.movieName.setText(data.get(position).getTitle());
 
         view.setOnClickListener(onMovieClickListener(position));
 
@@ -75,7 +70,7 @@ public class CoverFlowAdapter extends BaseAdapter {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(context);
+                /*final Dialog dialog = new Dialog(context);
 
                 dialog.setContentView(R.layout.dialog_movie_info);
                 dialog.setCancelable(true);
@@ -86,11 +81,10 @@ public class CoverFlowAdapter extends BaseAdapter {
 
                 ImageView imageView = (ImageView) dialog.findViewById(R.id.image_diolog);
 
-                //TODO: verify cases where image will not able
-//                Picasso.with(context).load(data.get(position).getPosterUrl()).into(imageView);
-//                imageView.setImageResource(data.get(position).getPosterUrl());
 
-                dialog.show();
+
+            dialog.show();*/
+
             }
         };
     }
