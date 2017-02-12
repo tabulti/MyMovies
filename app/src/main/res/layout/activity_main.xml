@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.paulo.joao.mymovies.MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/progress"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#43000000"
-        android:gravity="center|top">
-
-        <ProgressBar
-            android:layout_margin="20dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
-    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/main_content_fragment"
