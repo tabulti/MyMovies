@@ -13,9 +13,9 @@ Android app that permites user, trought inputing a movie name, integrates movie'
 
 Images
 ---------
-![home_no_movies](https://github.com/tabulti/MyMovies/blob/master/screenshots/home_no_movies.png)
-![home](https://github.com/tabulti/MyMovies/blob/master/screenshots/home.png)
-![movie_details](https://github.com/tabulti/MyMovies/blob/master/screenshots/movie_details.png)
+![alt home no movies](https://github.com/tabulti/MyMovies/blob/master/screenshots/home_no_movies.png)
+![alt home](https://github.com/tabulti/MyMovies/blob/master/screenshots/home.png)
+![alt movie details](https://github.com/tabulti/MyMovies/blob/master/screenshots/movie_details.png)
 
 Use Information
 ----------
