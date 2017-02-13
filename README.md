@@ -9,9 +9,22 @@ Android app that permites user, trought inputing a movie name, integrates movie'
 * Use [PicassoPallet][3] to load image pallet of colors
 * Use [CoverFlow][4] to make carousel view and animation
 * Use [AndroidViewAnimations][5] to animate view
+* Use [OMDb][6] api to search movies informations
 
-IMAGES
+Images
 ---------
-![alt Sign In](https://github.com/hlandim/Mobile-Supermarket/blob/master/screenshots/0-signIn.png)
-![alt Sign Up](https://github.com/hlandim/Mobile-Supermarket/blob/master/screenshots/1-signUp.png)
-![alt Products list](https://github.com/hlandim/Mobile-Supermarket/blob/master/screenshots/3-products.png)
+![home_no_movies](https://github.com/tabulti/MyMovies/blob/master/screenshots/home_no_movies.png)
+![home](https://github.com/tabulti/MyMovies/blob/master/screenshots/home.png)
+![movie_details](https://github.com/tabulti/MyMovies/blob/master/screenshots/movie_details.png)
+
+Use Information
+----------
+Only english titles are accepted as user input to find movies on OMDb
+
+
+[1]: https://github.com/square/retrofit
+[2]: https://github.com/square/picasso
+[3]: https://github.com/florent37/PicassoPalette
+[4]: https://github.com/moondroid/CoverFlow
+[5]: https://github.com/daimajia/AndroidViewAnimations
+[6]: http://www.omdbapi.com/
