@@ -15,7 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.paulo.joao.mymovies.R;
 import com.paulo.joao.mymovies.adapters.MoviesListAdapter;
@@ -36,6 +39,8 @@ public class SearchableFragment extends BaseFragment {
     private List<MyMovie> movies;
     private MyMovie movieFound;
 
+    private RelativeLayout searchContainer;
+
     public void updateMoviesFound(String movie){
         movieFound = new Gson().fromJson(movie, MyMovie.class);
         movies = new ArrayList<>();
@@ -49,6 +54,12 @@ public class SearchableFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        YoYo.with(Techniques.FadeInUp).duration(700).playOn(searchContainer);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +67,8 @@ public class SearchableFragment extends BaseFragment {
         String movie = getArguments().getString("movieSearched","");
 
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
+
+        searchContainer = (RelativeLayout) view.findViewById(R.id.search_container);
 
         moviesListView = (ListView) view.findViewById(R.id.movies_searched_list_view);
 

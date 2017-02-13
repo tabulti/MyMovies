@@ -14,9 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.github.florent37.picassopalette.PicassoPalette;
 import com.google.gson.Gson;
 import com.paulo.joao.mymovies.MainActivity;
@@ -42,6 +45,8 @@ public class MovieDetailsFragment extends BaseFragment {
     private ImageView star5;
     private MyMovie movieFound;
 
+    private RelativeLayout moviesDetailsContainer;
+
     private Toolbar detailsToolbar;
 
     public MovieDetailsFragment() {
@@ -57,6 +62,8 @@ public class MovieDetailsFragment extends BaseFragment {
         detailsToolbar.setTitleTextColor(Color.WHITE);
 
         setHasOptionsMenu(true);
+
+        moviesDetailsContainer = (RelativeLayout) view.findViewById(R.id.movies_details_layout);
 
         star1 = (ImageView) view.findViewById(R.id.star1);
         star2 = (ImageView) view.findViewById(R.id.star2);
@@ -108,6 +115,13 @@ public class MovieDetailsFragment extends BaseFragment {
         setStars(res);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        YoYo.with(Techniques.SlideInLeft).duration(700).playOn(moviesDetailsContainer);
     }
 
     @Override

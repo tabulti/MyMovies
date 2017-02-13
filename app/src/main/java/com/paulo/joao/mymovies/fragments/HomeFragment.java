@@ -27,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.paulo.joao.mymovies.MainActivity;
 import com.paulo.joao.mymovies.R;
@@ -129,6 +131,10 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Utils.setStatusBarColor(getActivity(), Color.RED);
+
+        YoYo.with(Techniques.SlideInRight).duration(700).playOn(mainContainer);
+
+        YoYo.with(Techniques.SlideInRight).duration(700).playOn(noMoviesContainer);
 
         if (movies != null && !movies.isEmpty()) {
             noMoviesContainer.setVisibility(View.GONE);
