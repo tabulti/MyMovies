@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.paulo.joao.mymovies.fragments.MovieDetailsFragment;
 import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
+import com.paulo.joao.mymovies.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class MoviesListPosterAdapter extends BaseAdapter {
         }
 
         viewHolder.movieTitle.setText(movies.get(position).getTitle());
-        viewHolder.movieYear.setText(movies.get(position).getYear());
+        viewHolder.movieYear.setText(Utils.formatYear(movies.get(position).getYear()));
 
         Picasso.with(context).load(movies.get(position).getPoster()).into(viewHolder.moviePoster);
 

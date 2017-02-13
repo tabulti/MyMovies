@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
+import com.paulo.joao.mymovies.util.Utils;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class MoviesListAdapter extends BaseAdapter {
         }
 
         viewHolder.movieTitle.setText(movies.get(position).getTitle());
-        viewHolder.movieYear.setText(movies.get(position).getYear());
+        viewHolder.movieYear.setText(Utils.formatYear(movies.get(position).getYear()));
 
         return view;
     }

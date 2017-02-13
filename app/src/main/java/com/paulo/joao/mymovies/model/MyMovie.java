@@ -27,11 +27,7 @@ public class MyMovie implements Serializable{
     private String Type;
     private boolean isSavedOnMobile;
 
-    public MyMovie(String title, /*String posterUrl,*/ String year, boolean isSaved) {
-        this.Title = title;
-//        this.PosterUrl = posterUrl;
-        this.isSavedOnMobile = isSaved;
-        this.Year = year;
+    public MyMovie() {
     }
 
     public boolean isSavedOnMobile() {

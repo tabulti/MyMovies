@@ -2,11 +2,9 @@ package com.paulo.joao.mymovies;
 
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import com.paulo.joao.mymovies.fragments.HomeFragment;
@@ -31,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
         if(findViewById(R.id.main_content_fragment) != null) {
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             }
             mFragment = new HomeFragment();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content_fragment, mFragment).addToBackStack(null).commit();
+                    .replace(R.id.main_content_fragment, mFragment).commit();
         }
     }
 
@@ -63,11 +61,5 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        onBackPressed();
-        return super.onKeyDown(keyCode, event);
     }
 }

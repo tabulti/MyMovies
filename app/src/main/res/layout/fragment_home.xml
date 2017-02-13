@@ -28,8 +28,54 @@
             android:layout_height="80dp"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/no_movies_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:layout_below="@id/home_toolbar">
+
+        <TextView
+            android:id="@+id/msg_no_movies_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="@string/no_movies_msg_1"
+            android:alpha="0.8"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/msg_no_movies2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/msg_no_movies_tv"
+            android:textSize="16dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/no_movies_msg_2"
+            android:alpha="0.8"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/no_movies_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_centerInParent="true"
+            android:text="@string/msg_start_now"
+            android:textColor="#9ecf0007"
+            android:padding="15dp"
+            android:background="@drawable/button_start_now_shape"
+            android:layout_below="@id/msg_no_movies2_tv"/>
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/main_container"
+        android:visibility="visible"
         android:layout_below="@id/home_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

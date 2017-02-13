@@ -3,9 +3,11 @@ package com.paulo.joao.mymovies.fragments;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
@@ -14,10 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
+import okhttp3.internal.Util;
 
 
 public class HomeFragment extends Fragment {
@@ -52,9 +57,14 @@ public class HomeFragment extends Fragment {
 
     private final String TAG = HomeFragment.class.getSimpleName();
     private SearchView searchView;
+    private MenuItem searchMenuItem;
     private HomeFragment mFragment;
     private SearchManager searchManager;
     private ComponentName componentName;
+
+    private Button noMoviesBtn;
+
+    private RelativeLayout noMoviesContainer;
 
     private Toolbar homeToolbar;
 
@@ -77,6 +87,10 @@ public class HomeFragment extends Fragment {
 
         searchProgress = (RelativeLayout) view.findViewById(R.id.progress);
 
+        noMoviesContainer = (RelativeLayout) view.findViewById(R.id.no_movies_container);
+
+        noMoviesBtn = (Button) view.findViewById(R.id.no_movies_button);
+
         carousel = (RelativeLayout) view.findViewById(R.id.carousel_container);
         coverFlow = (FeatureCoverFlow) view.findViewById(R.id.coverflow);
 
@@ -95,9 +109,31 @@ public class HomeFragment extends Fragment {
 
         moviesListView.setOnItemClickListener(listenerListView());
 
+        noMoviesBtn.setOnClickListener(btnNoMoviesListener());
+
 //        coverFlow.setOnClickListener();
 
         return view;
+    }
+
+    private View.OnClickListener btnNoMoviesListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchMenuItem.expandActionView();
+        }
+        };
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Utils.setStatusBarColor(getActivity(), Color.RED);
+
+        if (movies != null && !movies.isEmpty()) {
+            noMoviesContainer.setVisibility(View.GONE);
+            mainContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private AdapterView.OnItemClickListener listenerListView () {
@@ -139,7 +175,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -159,6 +195,7 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.options_menu, menu);
 
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchMenuItem = (MenuItem) menu.findItem(R.id.search);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -169,11 +206,10 @@ public class HomeFragment extends Fragment {
         });
 
         configureSearchBar(searchView);
-
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
@@ -182,7 +218,7 @@ public class HomeFragment extends Fragment {
     public void configureSearchBar(SearchView view){
         searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         componentName = new ComponentName(getContext(), SearchableFragment.class);
-        view.setQueryHint("Título do Filme");
+        view.setQueryHint(getString(R.string.search_bar_hint));
         view.setOnQueryTextListener(searchListener);
     }
 
@@ -196,66 +232,98 @@ public class HomeFragment extends Fragment {
         @Override
         public boolean onQueryTextSubmit(final String query) {
 
+            String queryToSend = Utils.formatUrlString(query);
+
             InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
 
-            searchProgress.bringToFront();
-            searchProgress.setVisibility(View.VISIBLE);
 
-            RetrofitImplementation.getInstance().getMovieByName(query, new OmdbService.GetMovieBySimpleNameHandler() {
-                @Override
-                public void onGetMovieBySimpleName(MyMovie res, final Error err) {
+            if(!Utils.isNetworkAvailable(getContext())) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.alert_warning_title)
+                        .setCancelable(false)
+                        .setMessage(getString(R.string.alert_no_connection_msg))
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                intent.setClassName("com.android.settings", "com.android.settings.wifi.WifiSettings");
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton(getString(R.string.no), null);
 
-                    if (res != null && err == null) {
-                        movieSearched = res;
-                        if (movieSearched != null) {
+                alert.show();
+            } else {
+                searchProgress.bringToFront();
+                searchProgress.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Do nothing to avoid click action on background layout
+                    }
+                });
+                searchProgress.setVisibility(View.VISIBLE);
 
-                            Bundle bundle = new Bundle();
-                            bundle.putString("movieSearched", new Gson().toJson(movieSearched));
-                            SearchableFragment fragment = new SearchableFragment();
-                            fragment.setArguments(bundle);
+                RetrofitImplementation.getInstance().getMovieByName(queryToSend, new OmdbService.GetMovieBySimpleNameHandler() {
+                    @Override
+                    public void onGetMovieBySimpleName(MyMovie res, final Error err) {
 
-                            getFragmentManager().beginTransaction()
-                                    .replace(R.id.main_content_fragment, fragment)
-                                    .addToBackStack(null)
-                                    .commit();
+                        if (res != null && err == null) {
+                            movieSearched = res;
+                            if (movieSearched != null) {
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("movieSearched", new Gson().toJson(movieSearched));
+                                SearchableFragment fragment = new SearchableFragment();
+                                fragment.setArguments(bundle);
+
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.main_content_fragment, fragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        } else {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showErrorDialog();
+                                }
+                            });
                         }
-                    } else {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showErrorDialog(err);
+                                searchProgress.setVisibility(View.GONE);
                             }
                         });
                     }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            searchProgress.setVisibility(View.GONE);
-                        }
-                    });
-                }
-            });
+                });
+            }
             return true;
         }
     };
 
-    private void showErrorDialog(Error error) {
+    private void showErrorDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext())
-                .setTitle("Ops. Algo deu errado").setMessage("Estamos com problemas" +
-                        " para encontrar o seu filme, tente novamente mais tarde\n\nError code: " + error.toString());
-
+                .setTitle(R.string.alert_error_title)
+                .setMessage(getString(R.string.alert_error_msg))
+                .setPositiveButton(getString(R.string.yes), null);
         alert.show();
     }
 
     public void initMovies(){
         movies = new ArrayList<>();
         movies = MoviesRepository.getInstance().getMovies();
+        if (movies == null || movies.isEmpty()) {
+            mainContainer.setVisibility(View.GONE);
+            noMoviesContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((MainActivity)getActivity()).setToolbar(homeToolbar, false);
     }
+
+
 }

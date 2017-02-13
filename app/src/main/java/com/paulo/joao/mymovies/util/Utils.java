@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.view.Window;
@@ -21,23 +23,26 @@ public class Utils {
         return " (" + year + ")";
     }
 
-    public static String formatUrlParam(String param){
-        String returnString = " ";
-        for (int i = 0; i < param.length(); i++) {
-            if (param.charAt(i) <= ' ') {
-
-            } else {
-                returnString.concat(String.valueOf(param.charAt(i)));
-            }
-        }
-        return null;
-    }
-
     public static void setStatusBarColor(Activity activity, int color) {
         Window window = activity.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(color);
         }
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private static String removeWhiteSpaces(String string) {
+        return string.replaceAll("\\s+", "+");
+    }
+
+    public static String formatUrlString(String title) {
+        return "?t=" + Utils.removeWhiteSpaces(title) + "&y=&plot=short&r=json";
     }
 }

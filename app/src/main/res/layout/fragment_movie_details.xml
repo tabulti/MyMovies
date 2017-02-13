@@ -12,30 +12,176 @@
     
     <ImageView
         android:id="@+id/movie_banner"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:layout_below="@id/description_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="220dp" />
 
-    <TextView
-        android:id="@+id/movie_description"
+    <ScrollView
+        android:id="@+id/scroll_movie_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="16dp"
-        android:padding="25dp"
-        android:layout_below="@id/movie_banner" />
+        android:layout_below="@id/movie_banner"
+        android:padding="15dp">
+
+        <android.support.v7.widget.CardView
+            android:elevation="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/movie_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/rating_div"
+                    android:layout_below="@id/movie_description"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/rating_star_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_centerVertical="true"
+                        android:textSize="17dp"
+                        android:textStyle="bold"
+                        android:text="Rating:"/>
+
+                    <ImageView
+                        android:id="@+id/star1"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_toRightOf="@id/rating_star_label"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/star_enable"
+                        />
+                    <ImageView
+                        android:id="@+id/star2"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_toRightOf="@id/star1"
+                        android:layout_marginLeft="4dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/star_enable"
+                        />
+                    <ImageView
+                        android:id="@+id/star3"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@id/star2"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/star_enable"
+                        />
+                    <ImageView
+                        android:id="@+id/star4"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@id/star3"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/star_enable"
+                        />
+                    <ImageView
+                        android:id="@+id/star5"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@id/star4"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/star_enable"
+                        />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/genre_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_below="@id/rating_div"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:text="Genre:"/>
+
+                <TextView
+                    android:id="@+id/genre_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/genre_label"
+                    android:textSize="16dp"
+                    />
+                <TextView
+                    android:id="@+id/actors_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_below="@id/genre_tv"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:text="Actors:"/>
+
+                <TextView
+                    android:id="@+id/actors_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/actors_label"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/awards_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_below="@id/actors_tv"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:text="Awards:"/>
+
+                <TextView
+                    android:id="@+id/awards_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/awards_label"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+
+
+
+        </android.support.v7.widget.CardView>
+
+
+
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/gradient"
-        android:layout_above="@+id/movie_description"
+        android:layout_above="@+id/scroll_movie_details"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:padding="6dp">
 
         <TextView
             android:id="@+id/movie_banner_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"

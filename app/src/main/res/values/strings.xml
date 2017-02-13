@@ -9,7 +9,25 @@
 
     <string name="delete">Delete</string>
 
+    <string name="no_movies_msg_1">Parece que você não tem nenhum filme adicionado à biblioteca de filmes.</string>
+
+    <string name="no_movies_msg_2">Vamos começar adicionando alguns?</string>
+
+    <string name="msg_start_now">Vamos lá!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_title_delete_movie">Apagar Filme</string>
+    <string name="dialog_msg_delete_movie">Tem certeza de que deseja apagar?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="movie_not_saved">Infelizmente não foi possível salvar o seu filme</string>
+    <string name="movie_saved">Filme salvo com sucesso</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="search_bar_hint">Título do Filme</string>
+    <string name="alert_warning_title">Aviso</string>
+    <string name="alert_no_connection_msg">Para pesquisar um filme é necessario que haja conexão" com a internet.\n\nDeseja conectar agora?"</string>
+    <string name="alert_error_title">Ops. Algo deu errado</string>
+    <string name="alert_error_msg">Estamos com problemas para encontrar o seu filme, tente novamente.</string>
 
 </resources>
