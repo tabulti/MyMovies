@@ -1,25 +1,18 @@
 package com.paulo.joao.mymovies.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.paulo.joao.mymovies.fragments.MovieDetailsFragment;
 import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
 import com.paulo.joao.mymovies.util.Utils;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,9 +58,9 @@ public class MoviesListPosterAdapter extends BaseAdapter {
         }
 
         viewHolder.movieTitle.setText(movies.get(position).getTitle());
-        viewHolder.movieYear.setText(Utils.formatYear(movies.get(position).getYear()));
+//        viewHolder.movieYear.setText(Utils.formatYear(movies.get(position).getYear()));
 
-        Picasso.with(context).load(movies.get(position).getPoster()).into(viewHolder.moviePoster);
+        Picasso.with(context).load(Utils.formatImageUrlString(movies.get(position).getPoster_path())).into(viewHolder.moviePoster);
 
         return view;
     }
@@ -85,7 +78,7 @@ public class MoviesListPosterAdapter extends BaseAdapter {
         public ViewHolder(View view) {
             movieTitle = (TextView) view.findViewById(R.id.movie_list_poster_item_title);
             movieYear = (TextView) view.findViewById(R.id.movie_list_poster_item_year);
-            moviePoster = (ImageView) view.findViewById(R.id.movie_list_poster_item_image);
+            moviePoster = (ImageView) view.findViewById(R.id.movie_banner);
         }
     }
 }

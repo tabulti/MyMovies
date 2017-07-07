@@ -18,6 +18,7 @@ import com.paulo.joao.mymovies.model.repository.MoviesRepository;
  */
 
 public class Utils {
+    private static final String API_KEY = "dfb17df39ca542d0c3e4e05c8f356f46";
 
     public static String formatYear(String year){
         return " (" + year + ")";
@@ -42,7 +43,16 @@ public class Utils {
         return string.replaceAll("\\s+", "+");
     }
 
-    public static String formatUrlString(String title) {
+    /*public static String formatUrlString(String title) {
         return "?t=" + Utils.removeWhiteSpaces(title) + "&y=&plot=short&r=json";
+    }*/
+
+    //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+    public static String formatUrlString(String title) {
+        return "search/movie?api_key=" + API_KEY + "&query=" + Utils.removeWhiteSpaces(title);
+    }
+
+    public static String formatImageUrlString(String imageId) {
+        return "http://image.tmdb.org/t/p/w342/" + imageId;
     }
 }

@@ -1,6 +1,7 @@
 package com.paulo.joao.mymovies.retrofit;
 
 import com.paulo.joao.mymovies.model.MyMovie;
+import com.paulo.joao.mymovies.model.TmdbResponse;
 
 import retrofit2.Call;
 import retrofit2.http.FormUrlEncoded;
@@ -12,10 +13,10 @@ import retrofit2.http.Url;
  * Created by joao.paulo.d.ribeiro on 08/02/2017.
  */
 
-public interface OmdbService {
+public interface TmdbService {
 
     interface GetMovieBySimpleNameHandler {
-        void onGetMovieBySimpleName(MyMovie res, Error err);
+        void onGetMovieBySimpleName(TmdbResponse res, Error err);
     }
 
     /*@GET("/")
@@ -25,5 +26,5 @@ public interface OmdbService {
                                 @Query(value = "r") String dataTypeReturn);*/
 
     @GET
-    public Call<MyMovie> getMovie(@Url String url);
+    public Call<TmdbResponse> getMovie(@Url String url);
 }

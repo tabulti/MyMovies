@@ -10,6 +10,52 @@
     <FrameLayout
         android:id="@+id/main_content_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="com.paulo.joao.mymovies.fragments.HomeFragment">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/home_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="4dp">
+
+            </android.support.v7.widget.Toolbar>
+
+            <RelativeLayout
+                android:id="@+id/progress"
+                android:layout_below="@id/home_toolbar"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:background="#64000000"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"/>
+            </RelativeLayout>
+
+            <include layout="@layout/no_movies_found_layout"
+                android:id="@+id/no_movies_container"
+                android:visibility="gone"/>
+
+            <include layout="@layout/cover_flow_layout"
+                android:id="@+id/main_container"
+                android:visibility="visible" />
+
+            <include layout="@layout/search_result_layout"
+                android:id="@+id/search_container"
+                android:visibility="gone"/>
+
+
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </RelativeLayout>

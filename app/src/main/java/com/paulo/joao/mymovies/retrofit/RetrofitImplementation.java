@@ -1,6 +1,7 @@
 package com.paulo.joao.mymovies.retrofit;
 
 import com.paulo.joao.mymovies.model.MyMovie;
+import com.paulo.joao.mymovies.model.TmdbResponse;
 
 import java.util.concurrent.Executors;
 
@@ -19,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitImplementation {
 
     private static RetrofitImplementation _instance_ = null;
-    private OmdbService service = null;
+    private TmdbService service = null;
 
 
     private RetrofitImplementation(){
@@ -42,7 +43,7 @@ public class RetrofitImplementation {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.omdbapi.com/")
+                .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .callbackExecutor(Executors.newSingleThreadExecutor())
                 .client(client)
@@ -50,19 +51,19 @@ public class RetrofitImplementation {
 
 
 
-        service = retrofit.create(OmdbService.class);
+        service = retrofit.create(TmdbService.class);
     }
 
 
-    /*public void getMovieByName(String name, final OmdbService.GetMovieBySimpleNameHandler handler) {
+    public void getMoviesByName(String url, final TmdbService.GetMovieBySimpleNameHandler handler) {
 
         if (service != null) {
 
-            final Call<MyMovie> res = service.getSimpleName(name, "", ParamsConsts.PLOT_SHORT, ParamsConsts.DATA_TYPE_RETURN_JSON);
+            final Call<TmdbResponse> res = service.getMovie(url);
 
-            res.enqueue(new Callback<MyMovie>() {
+            res.enqueue(new Callback<TmdbResponse>() {
                 @Override
-                public void onResponse(Call<MyMovie> call, Response<MyMovie> response) {
+                public void onResponse(Call<TmdbResponse> call, Response<TmdbResponse> response) {
                     if(response != null) {
                         if (response.errorBody() == null && response.body() != null){
                             handler.onGetMovieBySimpleName(response.body(), null);
@@ -75,37 +76,7 @@ public class RetrofitImplementation {
                     }
                 }
                 @Override
-                public void onFailure(Call<MyMovie> call, Throwable t) {
-                    if (t != null) {
-                        handler.onGetMovieBySimpleName(null, new Error(t.toString()));
-                    }
-                }
-            });
-        }
-    }*/
-
-    public void getMovieByName(String url, final OmdbService.GetMovieBySimpleNameHandler handler) {
-
-        if (service != null) {
-
-            final Call<MyMovie> res = service.getMovie(url);
-
-            res.enqueue(new Callback<MyMovie>() {
-                @Override
-                public void onResponse(Call<MyMovie> call, Response<MyMovie> response) {
-                    if(response != null) {
-                        if (response.errorBody() == null && response.body() != null){
-                            handler.onGetMovieBySimpleName(response.body(), null);
-                        } else {
-                            String err = "Code: " + response.raw().code() + "\n" +
-                                    "Message: " + response.raw().message();
-                            handler.onGetMovieBySimpleName(null, new Error(err));
-
-                        }
-                    }
-                }
-                @Override
-                public void onFailure(Call<MyMovie> call, Throwable t) {
+                public void onFailure(Call<TmdbResponse> call, Throwable t) {
                     if (t != null) {
                         handler.onGetMovieBySimpleName(null, new Error(t.toString()));
                     }

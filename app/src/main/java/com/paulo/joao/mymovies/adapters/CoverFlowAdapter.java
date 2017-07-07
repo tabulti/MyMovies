@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
+import com.paulo.joao.mymovies.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class CoverFlowAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Picasso.with(this.context).load(data.get(position).getPoster()).into(viewHolder.movieImage);
+        Picasso.with(this.context).load(Utils.formatImageUrlString(data.get(position).getPoster_path())).into(viewHolder.movieImage);
 
         view.setOnClickListener(onMovieClickListener(position));
 

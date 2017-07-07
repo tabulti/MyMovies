@@ -60,7 +60,7 @@ public class MoviesListAdapter extends BaseAdapter {
         }
 
         viewHolder.movieTitle.setText(movies.get(position).getTitle());
-        viewHolder.movieYear.setText(Utils.formatYear(movies.get(position).getYear()));
+//        viewHolder.movieYear.setText(Utils.formatYear(movies.get(position).getYear()));
 
         return view;
     }
