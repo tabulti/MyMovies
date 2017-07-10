@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +37,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.paulo.joao.mymovies.adapters.CoverFlowAdapter;
 import com.paulo.joao.mymovies.adapters.MoviesListAdapter;
+import com.paulo.joao.mymovies.adapters.MoviesListPosterAdapter;
 import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.model.TmdbResponse;
 import com.paulo.joao.mymovies.model.repository.MoviesRepository;
@@ -47,28 +52,21 @@ import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RelativeLayout carousel;
     private FeatureCoverFlow coverFlow;
     private CoverFlowAdapter coverFlowAdapter;
     private List<MyMovie> movies;
-    private MoviesListAdapter moviesListAdapter;
-    private ListView moviesListView;
-
     private final String TAG = MainActivity.class.getSimpleName();
     private SearchView searchView;
-    private MenuItem searchMenuItem;
     private SearchManager searchManager;
-    private ComponentName componentName;
-
     private Button noMoviesBtn;
-
+    private MoviesListPosterAdapter adapter;
+    private List<MyMovie> lastMovieListSearched = null;
     private RelativeLayout noMoviesContainer;
-    private RelativeLayout searcheadMoviesContainer;
     private LinearLayout mainContainer;
-
+    private ListView moviesSearchedListView;
     private Toolbar homeToolbar;
-
     private RelativeLayout searchProgress;
+    private MenuItem searchMenuItem;
 
 
     @Override
@@ -83,20 +81,14 @@ public class MainActivity extends AppCompatActivity {
         MoviesRepository.getInstance().initMoviesRepository(this);
 
         mainContainer = (LinearLayout) findViewById(R.id.main_container);
-
         homeToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         homeToolbar.setBackgroundColor(Color.RED);
         homeToolbar.setTitleTextColor(Color.WHITE);
-
         searchProgress = (RelativeLayout) findViewById(R.id.progress);
-
         noMoviesContainer = (RelativeLayout) findViewById(R.id.no_movies_container);
         mainContainer = (LinearLayout) findViewById(R.id.main_container) ;
-        searcheadMoviesContainer = (RelativeLayout) findViewById(R.id.search_container);
-
+        moviesSearchedListView = (ListView) findViewById(R.id.movies_searched_list_view_main);
         noMoviesBtn = (Button) findViewById(R.id.no_movies_button);
-
-        carousel = (RelativeLayout) findViewById(R.id.carousel_container);
         coverFlow = (FeatureCoverFlow) findViewById(R.id.coverflow);
 
         initMovies();
@@ -106,50 +98,49 @@ public class MainActivity extends AppCompatActivity {
         coverFlow.setAdapter(coverFlowAdapter);
         coverFlow.setOnScrollPositionListener(onScrollPositionListener());
 
-//        moviesListView = (ListView) findViewById(R.id.movies_list_view);
-
-//        moviesListAdapter = new MoviesListAdapter(this, movies);
-
-//        moviesListView.setAdapter(moviesListAdapter);
-
-
         noMoviesBtn.setOnClickListener(btnNoMoviesListener());
 
         setToolbar(homeToolbar, false);
-
     }
+
+    AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            MyMovie selectedMovie = lastMovieListSearched.get(i);
+
+            Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+
+            intent.putExtra("movieFoundToDetails", new Gson().toJson(selectedMovie));
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(MainActivity.this, view.findViewById(R.id.movie_banner), "movie");
+
+            MovieDetailsActivity activity = new MovieDetailsActivity();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                startActivity(intent, options.toBundle());
+            } else {
+                activity.startActivity(intent);
+            }
+        }
+
+    };
 
 
     public void configureSearchBar(SearchView view){
         searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
-        componentName = new ComponentName(this, SearchableActivity.class);
         view.setQueryHint(getString(R.string.search_bar_hint));
         view.setOnQueryTextListener(searchListener);
     }
 
-    public void callSearchActivity(TmdbResponse moviesSearchedResponse) {
-        final Intent intent = new Intent(this, SearchableActivity.class);
-
-        intent.putExtra("moviesSearchedResponse", new Gson().toJson(moviesSearchedResponse));
-
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(intent);
-            }
-        });
-    }
-
     SearchView.OnQueryTextListener searchListener = new SearchView.OnQueryTextListener() {
-
         @Override
         public boolean onQueryTextChange(final String newText) {
             return false;
         }
-
         @Override
         public boolean onQueryTextSubmit(final String query) {
-
             String queryToSend = Utils.formatUrlString(query);
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -192,10 +183,21 @@ public class MainActivity extends AppCompatActivity {
                             moviesSearchedResponse = res;
                             if (moviesSearchedResponse != null) {
 
+                                lastMovieListSearched = moviesSearchedResponse.getResults();
+
                                 MainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        callSearchActivity(moviesSearchedResponse);
+                                        if (adapter == null) {
+                                            adapter = new MoviesListPosterAdapter(getApplicationContext(), lastMovieListSearched);
+                                            moviesSearchedListView.setAdapter(adapter);
+                                            moviesSearchedListView.setOnItemClickListener(listener);
+
+                                            changeContainerVisibility(Container.SEARCH);
+
+                                        } else {
+                                            adapter.setMovies(lastMovieListSearched);
+                                        }
                                     }
                                 });
                             }
@@ -237,12 +239,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ((MainActivity)getActivity()).setToolbar(homeToolbar, false);
-    }*/
-
     private View.OnClickListener btnNoMoviesListener() {
         return new View.OnClickListener() {
             @Override
@@ -256,16 +252,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Utils.setStatusBarColor(this, Color.RED);
+        invalidateOptionsMenu();
 
         YoYo.with(Techniques.SlideInRight).duration(700).playOn(mainContainer);
 
         YoYo.with(Techniques.SlideInRight).duration(700).playOn(noMoviesContainer);
 
-        if (movies != null && !movies.isEmpty()) {
-            noMoviesContainer.setVisibility(View.GONE);
-            mainContainer.setVisibility(View.VISIBLE);
-        }
+        initMovies();
 
+        if (movies != null && !movies.isEmpty()) {
+
+            if(coverFlow != null && coverFlowAdapter != null){
+                coverFlow.setAdapter(coverFlowAdapter);
+            }
+        }
         super.onResume();
     }
 
@@ -275,47 +275,37 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
 
-        // Get the SearchView and set the searchable configuration
+        searchMenuItem = menu.findItem(R.id.search);
+
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+
+                        changeContainerVisibility(Container.SEARCH);
+                        return true;
+                    }
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+
+                        if(movies != null && !movies.isEmpty()) {
+                            changeContainerVisibility(Container.HOME);
+                        } else {
+                            changeContainerVisibility(Container.NO_MOVIES);
+                        }
+                        return true;
+                    }
+                });
+
         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                   changeContainerVisibility(Container.SEARCH);
-                } else {
-                    if(movies != null && !movies.isEmpty()) {
-                        changeContainerVisibility(Container.HOME);
-                    } else {
-                        changeContainerVisibility(Container.NO_MOVIES);
-                    }
-                }
-            }
-        });
 
         configureSearchBar(searchView);
 
         return true;
     }
-
-    /*@Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        if(findViewById(R.id.main_content_fragment) != null) {
-
-            if(savedInstanceState != null) {
-                return;
-            }
-            mFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content_fragment, mFragment).commit();
-        }
-    }*/
 
     public void setToolbar(Toolbar toolbar, boolean isBackEnable) {
         if(toolbar != null) {
@@ -325,15 +315,6 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
             }
         }
-    }
-
-    public void showMainContainer(boolean b) {
-        if (b) {
-            mainContainer.setVisibility(View.VISIBLE);
-        } else {
-            mainContainer.setVisibility(View.GONE);
-        }
-
     }
 
     private FeatureCoverFlow.OnScrollPositionListener onScrollPositionListener() {
@@ -358,44 +339,35 @@ public class MainActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.search:
-//                changeContainerVisibility(Container.SEARCH);
                 break;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
     public void changeContainerVisibility(Container containerToBeVisible) {
         switch (containerToBeVisible) {
             case NO_MOVIES:
-                searcheadMoviesContainer.setVisibility(View.GONE);
+                moviesSearchedListView.setVisibility(View.GONE);
                 mainContainer.setVisibility(View.GONE);
                 noMoviesContainer.setVisibility(View.VISIBLE);
                 break;
             case SEARCH:
                 mainContainer.setVisibility(View.GONE);
                 noMoviesContainer.setVisibility(View.GONE);
-                searcheadMoviesContainer.setVisibility(View.VISIBLE);
+                moviesSearchedListView.setVisibility(View.VISIBLE);
                 break;
             case HOME:
-                searcheadMoviesContainer.setVisibility(View.GONE);
+                moviesSearchedListView.setVisibility(View.GONE);
                 noMoviesContainer.setVisibility(View.GONE);
                 mainContainer.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-
-    public interface setToolbarReferenceHandler {
-        void setToolbar(Toolbar toolbar, boolean isBackEnable);
-    }
-
     private enum Container {
         NO_MOVIES,
         SEARCH,
         HOME;
-
         Container(){
         }
     }

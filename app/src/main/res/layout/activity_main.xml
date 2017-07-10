@@ -41,18 +41,24 @@
                     android:layout_height="80dp"/>
             </RelativeLayout>
 
+            <!-- Empty Layout -->
             <include layout="@layout/no_movies_found_layout"
                 android:id="@+id/no_movies_container"
                 android:visibility="gone"/>
 
+            <!-- Carousel layout-->
             <include layout="@layout/cover_flow_layout"
                 android:id="@+id/main_container"
                 android:visibility="visible" />
 
-            <include layout="@layout/search_result_layout"
-                android:id="@+id/search_container"
-                android:visibility="gone"/>
 
+            <!--Movies found result layout-->
+            <ListView
+                android:paddingTop="?attr/actionBarSize"
+                android:id="@+id/movies_searched_list_view_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

@@ -2,6 +2,8 @@ package com.paulo.joao.mymovies.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.paulo.joao.mymovies.MainActivity;
+import com.paulo.joao.mymovies.MovieDetailsActivity;
 import com.paulo.joao.mymovies.model.MyMovie;
 import com.paulo.joao.mymovies.R;
 import com.paulo.joao.mymovies.util.Utils;
@@ -71,21 +76,17 @@ public class CoverFlowAdapter extends BaseAdapter {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*final Dialog dialog = new Dialog(context);
+                final Dialog dialog = new Dialog(context);
 
                 dialog.setContentView(R.layout.dialog_movie_info);
                 dialog.setCancelable(true);
                 dialog.setTitle(R.string.selected_movie_dialog_title);
 
-                TextView textView = (TextView) dialog.findViewById(R.id.name);
-//                textView.setText(data.get(position).getTitle());
+                Intent intent = new Intent(context, MovieDetailsActivity.class);
 
-                ImageView imageView = (ImageView) dialog.findViewById(R.id.image_diolog);
+                intent.putExtra("movieFoundToDetails", new Gson().toJson(data.get(position)));
 
-
-
-            dialog.show();*/
-
+                context.startActivity(intent);
             }
         };
     }
